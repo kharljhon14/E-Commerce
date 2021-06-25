@@ -6,6 +6,9 @@ const authRouter = require("./routes/admin/auth");
 const app = express();
 
 //MiddleWares
+//Check in the current directory and find the "Public" folder and make everything inside the folder available to the outside world
+app.use(express.static("public"))
+
 app.use(urlencoded({ extended: true }));
 app.use(
    cookieSession({
