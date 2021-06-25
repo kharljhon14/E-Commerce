@@ -17,7 +17,7 @@ module.exports = ({ req, errors }) => {
     <div>
         ${req.session.userid}
         <form method="post">
-            <input type="email" name="email" placeholder="email"/>
+            <input type="text" name="email" placeholder="email"/>
             ${getError(errors, "email")}
             <input type="password" name="password" placeholder="password"/>
             ${getError(errors, "password")}
