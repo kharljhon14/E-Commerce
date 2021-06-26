@@ -1,8 +1,8 @@
 const express = require("express");
-const { validationResult } = require("express-validator");
 const router = express.Router();
 const multer = require("multer");
 
+const { handleError } = require("./middlewares");
 const productsRepo = require("../../repositories/products");
 const productsNewTemplate = require("../../views/admin/products/new");
 const { requireTitle, requirePrice } = require("./validators");
@@ -15,13 +15,7 @@ router.get("/admin/products/new", (req, res) => {
    res.send(productsNewTemplate({}));
 });
 
-router.post("/admin/products/new", upload.single("image"), [requireTitle, requirePrice], async (req, res) => {
-   const errors = validationResult(req);
-
-   if (!errors.isEmpty()) {
-      return res.send(productsNewTemplate({ errors }));
-   }
-
+router.post("/admin/products/new", upload.single("image"), [requireTitle, requirePrice], handleError(productsNewTemplate), async (req, res) => {
    //Not the best way to store file only use for personal projects
    const image = req.file.buffer.toString("base64");
    const { title, price } = req.body;

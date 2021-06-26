@@ -16,7 +16,7 @@ module.exports = {
          }
       }),
    requirePassword: check("password").trim().isLength({ min: 4, max: 20 }).withMessage("Must be between 4 and 20 characters"),
-   requireConfirmPassword: check("passwordconfirmation")
+   requireConfirmPassword: check("passwordConfirmation")
       .trim()
       .isLength({ min: 4, max: 20 })
       .withMessage("Must be between 4 and 20 characters")
