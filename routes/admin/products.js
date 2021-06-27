@@ -11,7 +11,6 @@ const { requireTitle, requirePrice } = require("./validators");
 const upload = multer({ storage: multer.memoryStorage() });
 
 router.get("/admin/products", requireAuth, async (req, res) => {
-  if (!req.session.id) return res.redirect("/signin");
   const products = await productsRepo.getAll();
   res.send(productsIndexTemplate({ products }));
 });
