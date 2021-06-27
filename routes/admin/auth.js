@@ -21,7 +21,7 @@ router.post("/signup", [requireEmail, requirePassword, requireConfirmPassword], 
    //Store the id of that user inside the users cookie
    req.session.userid = user.id; //Added by cookie session
 
-   res.send("Account Created");
+   res.redirect("/admin/products");
 });
 
 router.get("/signout", (req, res) => {
@@ -39,7 +39,7 @@ router.post("/signin", [requireExistingEmail, requireValidPasswordFor], handleEr
 
    req.session.id = user.id;
 
-   res.send("You are signed in!!");
+   res.redirect("/admin/products");
 });
 
 module.exports = router;
