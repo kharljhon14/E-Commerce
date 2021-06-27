@@ -47,13 +47,23 @@ router.get("/admin/products/:id/edit", requireAuth, async (req, res) => {
 router.post(
   "/admin/products/:id/edit",
   requireAuth,
-  upload.single("image"),
+  upload.single("image"), // string name is the name of file input
   [requireTitle, requirePrice],
   handleError(productsNewTemplate),
   async (req, res) => {
-    const image = req.file.buffer.toString("base64");
-    const {tile, price } = req.body;
-    //Save edited file 
+    const changes = req.body;
+
+    if (req.file) {
+      changes.image = req.file.buffer.toString("base64");
+    }
+    try {
+      await productsRepo.update(req.params.id, changes);
+    } catch (err) {
+      //Needs to be refactored
+      res.send("Could not find item");
+    }
+
+    res.redirect("/admin/products");
   }
 );
 
