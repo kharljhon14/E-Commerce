@@ -3,7 +3,8 @@ const express = require("express");
 const cookieSession = require("cookie-session");
 
 const authRouter = require("./routes/admin/auth");
-const productsRouter = require("./routes/admin/products");
+const adminProductsRouter = require("./routes/admin/products");
+const productsRouter = require("./routes/products");
 
 const app = express();
 
@@ -13,15 +14,16 @@ app.use(express.static("public"));
 
 app.use(urlencoded({ extended: true }));
 app.use(
-   cookieSession({
-      keys: ["asd2323ffs"],
-   })
+  cookieSession({
+    keys: ["asd2323ffs"],
+  })
 );
 //Middleware Routers
 app.use(authRouter);
+app.use(adminProductsRouter);
 app.use(productsRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-   console.log(`Listing for port ${PORT}`);
+  console.log(`Listing for port ${PORT}`);
 });
