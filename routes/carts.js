@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const cartsRepo = require("../repositories/carts");
+const productsRepo = require("../repositories/products");
+const cartShowTemplate = require("../views/carts/show")
+const { requireAuth } = require("./admin/middlewares");
 
 //Receive a post request to add an item in the cart
 router.post("/cart/products", async (req, res) => {
@@ -32,7 +35,19 @@ router.post("/cart/products", async (req, res) => {
   res.send("Product added to cart");
 });
 //Receive a get request to show all items in cart
+router.get("/cart", async (req, res) => {
+  if (!req.session.cartId) {
+    return res.redirect("/");
+  }
+  const cart = await cartsRepo.getOne(req.session.cartId);
 
+  for (let item of cart.items) {
+    const product = await productsRepo.getOne(item.id);
+    item.product = product;
+  }
+
+  res.send(cartShowTemplate({ items: cart.items }));
+});
 //receive a post to delete item in the cart
 
 module.exports = router;
